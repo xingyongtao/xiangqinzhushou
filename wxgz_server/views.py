@@ -21,10 +21,14 @@ def home(request):
         #处理微信发过来的post请求
     if request.method == 'POST':
         received_msg = Parser(request.body)
-        logger.info('收到一条来自 %s 的 %s 消息: %s', received_msg.from_user_name, received_msg.msg_type, received_msg.content)
-        #在用户没有会话的情况下进行正常的文字消息处理
-        if received_msg.msg_type == 'text': #处理文字类型的消息
-            return default_response(received_msg)
+        logger.info('收到一条来自 %s 的 %s 消息: %s',
+                    received_msg.from_user_name,
+                    received_msg.msg_type,
+                    received_msg.content)
+        # 在用户没有会话的情况下进行正常的文字消息处理
+        if received_msg.msg_type == 'text':  # 处理文字类型的消息
+            return message.default_response(to_user_name=received_msg.from_user_name,
+                                            from_user_name=received_msg.to_user_name)
             #收到事件推送的处理
         elif received_msg.msg_type == 'event':
             if received_msg.event == u'subscribe':
@@ -32,5 +36,5 @@ def home(request):
                 msg_init(msg,received_msg)
                 msg.content = DEFAULT_MSG
                 return render_to_response('response/text_to_user.xml',locals())
-            else :
+            elif received_msg.event == u'unsubscribe':
                 return HttpResponse('成功取消关注！')
