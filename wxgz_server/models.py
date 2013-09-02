@@ -1,4 +1,5 @@
 from django.db import models
+import time
 
 # Create your models here.
 class WeixinUser(models.Model):
@@ -24,6 +25,9 @@ class BaseMessage(models.Model):
 
     class Meta:
         abstract = True
+        
+    def createtime(self):
+        return time.mktime(self.create_time.timetuple())
         
 class TextMessage(BaseMessage):
     message_id = models.IntegerField()
