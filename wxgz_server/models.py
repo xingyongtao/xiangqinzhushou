@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: UTF -*-
 from django.db import models
 import time
 
@@ -61,13 +63,14 @@ class EventMessage(BaseMessage):
 
 class MusicMessage(BaseMessage):
     music_url = models.CharField(max_length=500, verbose_name='音乐链接')
-    hq_music_url = models.CharField(max_lengh=500, verbose_name='高质量音乐链接，WIFI环境下优先使用该链接播放音乐')
+    hq_music_url = models.CharField(max_length=500, verbose_name='高质量音乐链接，WIFI环境下优先使用该链接播放音乐')
     
 class NewsMessage(BaseMessage):
     article_count = models.SmallIntegerField()
     
-class SubNewsMessage(NewsMessage):
+class SubNewsMessage(BaseMessage):
     parent_news = models.ForeignKey(NewsMessage)
+    article_count = models.SmallIntegerField()
     index = models.SmallIntegerField(verbose_name='消息的索引位置，从0开始')
     title = models.CharField(max_length=50)
     description = models.CharField(max_length=100)

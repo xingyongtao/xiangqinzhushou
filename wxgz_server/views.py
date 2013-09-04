@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: UTF -*-
 # Create your views here.
 import logging
 logger = logging.getLogger(__name__)
